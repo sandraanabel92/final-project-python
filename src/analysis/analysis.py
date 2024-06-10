@@ -32,3 +32,13 @@ def save_clean_data(df,outputh_path):
     else:
         raise ValueError("Unsupported file format")
     print(f"Clean data saved to {outputh_path}")
+
+if __name__ == "__main__": #Permitimos que el script solo se ejecute en este archivo
+    data_path = "data/raw/products.csv" #Definimos la ruta del archivo de datos sin procesar
+    outputh_path = "data/processed/cleaned_products.csv"  #Definimos la ruta del archivo de datos procesados
+
+    df = load_data(data_path) #Cargamos los datos de un archivo especifico
+    df = clean_data(df) #Limpiamos los datos cargados   
+    analyze_data(df)
+    os.makedirs("data/processed", exist_ok= True)
+    save_clean_data(df,outputh_path)
