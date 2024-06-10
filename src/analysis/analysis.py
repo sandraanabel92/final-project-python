@@ -23,6 +23,7 @@ def analyze_data(df):
     print("\nProducts with highest prices: ")
     highestPrices = df.nlargest(5,"price")
     print(highestPrices)
+    return highestPrices
 
 def save_clean_data(df,outputh_path):
     if outputh_path.endswith(".csv"):
@@ -39,6 +40,6 @@ if __name__ == "__main__": #Permitimos que el script solo se ejecute en este arc
 
     df = load_data(data_path) #Cargamos los datos de un archivo especifico
     df = clean_data(df) #Limpiamos los datos cargados   
-    analyze_data(df)
+    df = analyze_data(df)
     os.makedirs("data/processed", exist_ok= True)
     save_clean_data(df,outputh_path)
