@@ -20,4 +20,15 @@ def clean_data(df):
 def analyze_data(df):
     print("Basic Data Analysis: ")
     print(df.describe())
-    print("\nProducts with highest prices:")
+    print("\nProducts with highest prices: ")
+    highestPrices = df.nlargest(5,"price")
+    print(highestPrices)
+
+def save_clean_data(df,outputh_path):
+    if outputh_path.endswith(".csv"):
+        df.to_csv(outputh_path,index = False)
+    elif outputh_path.endswith(".xlsx"):
+        df.to_excel(outputh_path,index = False)
+    else:
+        raise ValueError("Unsupported file format")
+    print(f"Clean data saved to {outputh_path}")
