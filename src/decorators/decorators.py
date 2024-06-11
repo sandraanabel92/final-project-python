@@ -22,3 +22,5 @@ def logit(func):
         logging.info(f"Corriendo {func.__name__}")
         result = func(*args, **kwargs)
         logging.info(f"Completado {func.__name__}")
+        return result
+    return wrapper

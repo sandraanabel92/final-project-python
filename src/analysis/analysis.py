@@ -1,6 +1,9 @@
 import pandas as pd
 import os
+from ..decorators.decorators import timeit, logit  #Importamos los decoradores personalizados
 
+@logit
+@timeit
 def load_data(data_path):
 
     if data_path.endswith(".csv"):
@@ -12,11 +15,15 @@ def load_data(data_path):
     print("Data loaded successfully")
     return df
 
+@logit
+@timeit
 def clean_data(df):
     df["price"] = df["price"].replace(r"[\$,]", "", regex = True).astype(float) #Se limpia y convierte la columna de precios a tipo float
     print("Data cleaned Successfully")
     return df
 
+@logit
+@timeit
 def analyze_data(df):
     print("Basic Data Analysis: ")
     print(df.describe())
@@ -25,6 +32,8 @@ def analyze_data(df):
     print(highestPrices)
     return highestPrices
 
+@logit
+@timeit
 def save_clean_data(df,outputh_path):
     if outputh_path.endswith(".csv"):
         df.to_csv(outputh_path,index = False)
