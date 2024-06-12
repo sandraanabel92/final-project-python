@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup #para analizar los documentos html
 import pandas as pd #para manejar los Datos en el dataFrames
+import sqlite3 #Importacion de sqlite3 para importacion de DB
 
 def fetch_page(url):
     #obtenemos el contenido de una pagina
@@ -36,13 +37,53 @@ def scrape(url):
     
     return pd.DataFrame(products_data)
 
+def save_to_db(df, db_name = 'products.db'):
+    """
+    Guarda un DataFrame en una base de datos SQLite.
+    
+    Args:
+        df (DataFrame): El DataFrame de pandas que se va a guardar.
+        db_name (str): El nombre del archivo de la base de datos SQLite.
+    """
+    conn = sqlite3.connect(db_name) #Conecta a la base de datos SQLITE (se crea si no existe)
+    df.to_sql('products', conn, if_exists = 'replace', index = False) #Guarda el DataFrame en la tabla 'products'
+    conn.close() #Cierra la conexión a la base de datos
+
+
+def view_data_from_db(db_name = 'products.db'):
+    """
+    Recupera y muestra los datos de la base de datos SQLite.
+    
+    Args:
+        db_name (str): El nombre del archivo de la base de datos SQLite.
+        
+    Returns:
+        DataFrame: Un DataFrame de pandas con los datos de la tabla 'products'.
+    """
+    conn = sqlite3.connect(db_name)
+    query = "SELECT * FROM products" # Consulta SQL para seleccionar todos los datos de la tabla 'products'
+    df = pd.read_sql(query, conn)  # Ejecuta la consulta y carga los datos en un DataFrame de pandas
+    conn.close()
+    return df # Retorna el DataFrame con los datos
+    
+
 base_url = "https://webscraper.io/test-sites/e-commerce/allinone"
 
-df = scrape(base_url)
+df = scrape(base_url) # Realiza el scraping y obtiene los datos en un DataFrame
 
 print(df)
 
 df.to_csv('data/raw/products.csv', index=False)
+
+# Guarda los datos en una base de datos SQLite
+save_to_db(df)
+
+# Visualiza los datos guardados en la base de datos
+print("Visualizacion de informacion de datos")
+viewed_df = view_data_from_db()
+print(viewed_df)
+
+print("Data saved to CSV and SQLITE database.")
 
     
 
