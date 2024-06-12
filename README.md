@@ -73,3 +73,9 @@ python .\src\analysys\analysys.py
 ````
 
 Esto nos va a generar un CSV en la carpeta "PROCESSED" dentro de la carpeta "DATA" llamado "cleaned_products.csv"
+
+#### Autora:
+
+- Sandra Anabel Palacios Abad
+
+- e-mail: sandraanabel21@gmail.com
