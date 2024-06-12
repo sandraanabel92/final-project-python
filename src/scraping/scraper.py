@@ -37,30 +37,30 @@ def scrape(url):
     
     return pd.DataFrame(products_data)
 
-def save_to_db(df, db_name = 'products.db'):
+def save_to_db(df, db_path = 'data/database/products.db'):
     """
     Guarda un DataFrame en una base de datos SQLite.
     
     Args:
         df (DataFrame): El DataFrame de pandas que se va a guardar.
-        db_name (str): El nombre del archivo de la base de datos SQLite.
+        db_path (str): La ruta del archivo de la base de datos SQLite.
     """
-    conn = sqlite3.connect(db_name) #Conecta a la base de datos SQLITE (se crea si no existe)
+    conn = sqlite3.connect(db_path) #Conecta a la base de datos SQLITE (se crea si no existe)
     df.to_sql('products', conn, if_exists = 'replace', index = False) #Guarda el DataFrame en la tabla 'products'
     conn.close() #Cierra la conexión a la base de datos
 
 
-def view_data_from_db(db_name = 'products.db'):
+def view_data_from_db(db_path = 'data/database/products.db'):
     """
     Recupera y muestra los datos de la base de datos SQLite.
     
     Args:
-        db_name (str): El nombre del archivo de la base de datos SQLite.
+        db_path (str): La ruta del archivo de la base de datos SQLite.
         
     Returns:
         DataFrame: Un DataFrame de pandas con los datos de la tabla 'products'.
     """
-    conn = sqlite3.connect(db_name)
+    conn = sqlite3.connect(db_path)
     query = "SELECT * FROM products" # Consulta SQL para seleccionar todos los datos de la tabla 'products'
     df = pd.read_sql(query, conn)  # Ejecuta la consulta y carga los datos en un DataFrame de pandas
     conn.close()
